@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 
 import { useSelector, useDispatch } from "react-redux";
 // import ScrollAnimate from "./components/ScrollAnimate.js";
-// import NavBar from "./components/NavBar";
+ import NavBar from "./components/NavBar";
 
 
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
@@ -17,7 +17,7 @@ const server = {
   production: "https://wgxjjo-5000.csb.app",
 };
 
-function App() {
+export default function App() {
   const [userStatus, setUserStatus] = useState()
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ function App() {
 
 //   const href = useHref();
 //   dispatch(setter({ keys: "state.server.url", value: server.production}));
-//   const [page, setPage] = useState("/")
+ const [page, setPage] = useState("/")
 //   useEffect(() => {
 //     setPage(href);
 //   }, [href]);
@@ -34,7 +34,7 @@ function App() {
 
   return (
     <div>
-      {/* {page !== "/" && page != '/error' && <NavBar />} */}
+    {page !== "/" && page != '/error' && <NavBar />} 
       <Routes>
         <Route path="/" element={<h1>hola</h1>} />
         {/* <Route path="/home" element={<Home />} /> */}
@@ -54,4 +54,3 @@ function App() {
   );
 }
 
-export default App;
