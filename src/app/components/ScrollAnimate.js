@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import * as Scroll from 'react-scroll';
 
 export default function ScrollAnimate({ footer }) {
   const [footerStyle, setFooterStyle] = useState({ bottom: "-100%" });

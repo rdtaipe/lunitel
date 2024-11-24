@@ -16,7 +16,6 @@ root.render(
       <BrowserRouter>
         <HelmetProvider>
           <BasicHead />
-          <h1>Hola</h1>  
           <App />
         </HelmetProvider>
       </BrowserRouter>

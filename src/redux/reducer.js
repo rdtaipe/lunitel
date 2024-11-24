@@ -1,5 +1,5 @@
 import axios from "axios";
-import {SET_STATE,} from "./types";
+import { SET_STATE, } from "./types";
 import { setter } from "./actions";
 import { utils } from "./utils";
 
@@ -16,7 +16,8 @@ export var initialState = {
   searchName: "",
   categories: [],
   brands: [],
-  color: [],
+  color: {},
+  rootStyles: {},
   selectedBrands: [],
   viewChat: {
     value: false,
@@ -82,18 +83,18 @@ export var initialState = {
       data: () => !utils.getLocal("userData") ? {} : utils.getLocal("userData"),
       authorize: async (token, user, url) => {
         console.log(user, url)
-          const domain = url + "/users/authorize"
-          const headers = { authorization: `Bearer ${token}`, user: user }// for every request
-          const getUserMetadataResponse = await axios.get(domain, {
-            headers: headers,
-          });
-          const data = getUserMetadataResponse.data.user
-          utils.saveLocal("userStatus", { error: false, message: "Authorized" })
-          utils.saveLocal("autorized", true)
-          utils.saveLocal("userData", data)
-          utils.saveCookie("token", token)
-          return data
-       
+        const domain = url + "/users/authorize"
+        const headers = { authorization: `Bearer ${token}`, user: user }// for every request
+        const getUserMetadataResponse = await axios.get(domain, {
+          headers: headers,
+        });
+        const data = getUserMetadataResponse.data.user
+        utils.saveLocal("userStatus", { error: false, message: "Authorized" })
+        utils.saveLocal("autorized", true)
+        utils.saveLocal("userData", data)
+        utils.saveCookie("token", token)
+        return data
+
       },
       unauthorize: ({ message }) => {
         console.log(message)

@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import logo192 from './logo192.png';
-import logo from './logo.png'
+import logoIcon from './logoicon.png'
 import './index.css';
 
 
@@ -16,7 +16,7 @@ export const BasicHead = () => {
 
 
         {/* Cambiar el icono de la pestaña */}
-        <link rel="icon" href={logo}/>
+        <link rel="icon" href={logoIcon}/>
 
         {/* Definir el color del tema */}
         <meta name="theme-color" content="#000000" />

@@ -4,8 +4,8 @@ import { Route, Routes, useHref, useNavigate } from "react-router-dom";
 import Footer from "./components/Footer";
 
 import { useSelector, useDispatch } from "react-redux";
-// import ScrollAnimate from "./components/ScrollAnimate.js";
- import NavBar from "./components/NavBar";
+import ScrollAnimate from "./components/ScrollAnimate.js";
+import NavBar from "./components/NavBar";
 
 
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
@@ -17,24 +17,32 @@ const server = {
   production: "https://wgxjjo-5000.csb.app",
 };
 
+const rootStyles = {
+  black: "#191D1A",
+  white: "#FAFAFA",
+  blue: "#00D3FF",
+  creen: "#00FF99",
+}
+
 export default function App() {
   const [userStatus, setUserStatus] = useState()
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setter, auth, url } = useSelector(({ state }) => state.server);
 
-//   const href = useHref();
-//   dispatch(setter({ keys: "state.server.url", value: server.production}));
- const [page, setPage] = useState("/")
-//   useEffect(() => {
-//     setPage(href);
-//   }, [href]);
+  dispatch(setter({ keys: "rootStyles", value: rootStyles }));
+  //   const href = useHref();
+  //   dispatch(setter({ keys: "state.server.url", value: server.production}));
+  const [page, setPage] = useState("/")
+  //   useEffect(() => {
+  //     setPage(href);
+  //   }, [href]);
 
 
 
   return (
     <div>
-    {page !== "/" && page != '/error' && <NavBar />} 
+      <NavBar />
       <Routes>
         <Route path="/" element={<h1>hola</h1>} />
         {/* <Route path="/home" element={<Home />} /> */}
@@ -49,7 +57,7 @@ export default function App() {
         {/* <Route path="/error" element={<Error/>}/> */}
       </Routes>
 
-      {/* {page !== "/" && <ScrollAnimate footer={<Footer />} />} */}
+      {page !== "/" && <ScrollAnimate footer={<Footer />} />}
     </div>
   );
 }

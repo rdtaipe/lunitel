@@ -6,6 +6,8 @@ import { IconButton } from "@mui/material";
 const SearchBar = () => {
   const dispatch = useDispatch();
   const { setter } = useSelector((state) => state.actions);
+  const rootStyles = useSelector((state) => state.rootStyles)
+
   const [name, setName] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,23 +20,24 @@ const SearchBar = () => {
   };
 
   return (
-    <div  className="flex w-[100%] md:w-[270px] lg:w-[350px] h-[40px] rounded-[4px] bg-[white]">
+    <div style={{ backgroundColor: rootStyles.white }} className="flex w-[100%] md:w-[270px] lg:w-[350px] h-[40px] rounded-[4px] ">
       <IconButton
         type="button"
-        className="bg-[#f0f2f5] rounded-[4px] w-[40px] h-[40px] flex justify-center items-center"
+        className="rounded-[4px] w-[40px] h-[40px] flex justify-center items-center"
         onClick={(e) => handleSubmit(e)}
       >
-        <SearchIcon className="text-black " />
+        <SearchIcon style={{ color: rootStyles.black }} />
       </IconButton>
       <input
-        className=" pr-1 text-black outline-none w-[100%] h-[100%] rounded-[4px]"
+        style={{ color: rootStyles.black, backgroundColor:rootStyles.white }}
+        className=" pr-1 outline-none w-[100%] h-[100%] rounded-[4px]"
         placeholder="Search for any product"
         type="search"
         value={name}
-        onChange={(e) => handleInputChange(e)}
+      // onChange={(e) => handleInputChange(e)}
       />
     </div>
   );
 };
 
-export default SearchBar;
+export default SearchBar
