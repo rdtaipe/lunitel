@@ -1,7 +1,5 @@
-import axios from "axios";
-import store from "./store";
-import {SET_STATE,} from "./types";
 
+import store from "./store";
 export function setter(value) {
   var newState = store.getState()
   var action = { payload: value }
@@ -48,7 +46,7 @@ export function setter(value) {
     }
 
   }
-  store.dispatch({ type: SET_STATE, payload: newReducer(newState, action) });
+  store.dispatch({ type: "SET_STATE", payload: newReducer(newState, action) });
 
   return async (dispatch) => {
     return dispatch({ type: "REFRESH", payload: Math.random() })

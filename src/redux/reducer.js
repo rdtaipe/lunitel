@@ -1,9 +1,9 @@
 import axios from "axios";
-import { SET_STATE, } from "./types";
 import { setter } from "./actions";
 import { utils } from "./utils";
 
 export var initialState = {
+  setter: setter,
   products: [],
   refresh: false,
   details: [
@@ -17,10 +17,13 @@ export var initialState = {
   categories: [],
   brands: [],
   color: {},
-  rootStyles: {},
   selectedBrands: [],
   viewChat: {
     value: false,
+  },
+  rootStyles:{
+    theme:["light","night"],
+    color:{}
   },
 
   openFilter: false,
@@ -134,7 +137,7 @@ export const reducer = (state = initialState, action) => {
         refresh: action.payload,
       }
     }
-    case SET_STATE:
+    case "SET_STATE":
       return {
         ...state,
         ...action.payload,

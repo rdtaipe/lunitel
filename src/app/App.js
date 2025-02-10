@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ScrollAnimate from "./components/ScrollAnimate.js";
 import NavBar from "./components/NavBar";
 
-
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
 
 import Button from '@mui/material/Button'
@@ -16,6 +16,17 @@ const server = {
   local: "http://localhost:5000",
   production: "https://wgxjjo-5000.csb.app",
 };
+const breakpoints = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
+});
 
 const rootStyles = {
   black: "#191D1A",
@@ -27,18 +38,12 @@ const rootStyles = {
 export default function App() {
   const [userStatus, setUserStatus] = useState()
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { setter, auth, url } = useSelector(({ state }) => state.server);
+
+  const { setter} = useSelector(({ state }) => state.server);
 
   dispatch(setter({ keys: "rootStyles", value: rootStyles }));
-  //   const href = useHref();
-  //   dispatch(setter({ keys: "state.server.url", value: server.production}));
+  
   const [page, setPage] = useState("/")
-  //   useEffect(() => {
-  //     setPage(href);
-  //   }, [href]);
-
-
 
   return (
     <div>
