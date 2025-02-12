@@ -19,7 +19,7 @@ import { AiOutlineShoppingCart, AiOutlineMenu } from "react-icons/ai";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import logo from "../../assets/logoLight.png"; // Actualiza la ruta del logo
+import logo from "../../assets/logo.svg"; // Actualiza la ruta del logo
 
 // Estilo de texto para los enlaces
 const NavTextStyle = {
