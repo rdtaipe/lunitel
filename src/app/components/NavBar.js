@@ -108,26 +108,7 @@ const NavBar = () => {
           </Box>
         </Toolbar>
         </Container >
-        {/* Menú desplegable de categorías */}
-        <Container maxWidth="xl">
-          <Box display="flex" justifyContent="center" flexWrap="nowrap" overflow="auto">
-            {categories.map((category, index) => (
-              <Typography
-                key={index}
-                component={Link}
-                to={category.path}
-                sx={{
-                  ...NavTextStyle,
-                  px: 1,
-                  whiteSpace: "nowrap",
-                  color: rootStyles.white
-                }}
-              >
-                {category.title}
-              </Typography>
-            ))}
-          </Box>
-        </Container>
+   
 
         {/* Menú lateral para móviles */}
         <Menu

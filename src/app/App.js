@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Home from "./pages/Home.js";
+import CategoriesBar from "./components/Categories.js";
 import { Route, Routes, useHref, useNavigate } from "react-router-dom";
 import Footer from "./components/Footer";
 
@@ -29,7 +30,7 @@ const breakpoints = createTheme({
 });
 
 const rootStyles = {
-  black: "#191D1A",
+  black: "#192531",
   white: "#FAFAFA",
   blue: "#00D3FF",
   creen: "#00FF99",
@@ -48,8 +49,9 @@ export default function App() {
   return (
     <div>
       <NavBar />
+    <CategoriesBar />  
       <Routes>
-        <Route path="/" element={<h1>hola</h1>} />
+        <Route path="/" element={<h1></h1>} />
         {/* <Route path="/home" element={<Home />} /> */}
         {/* <Route path="/token/:token" element={<Home />} />
         <Route path="/about" element={<About />} />
