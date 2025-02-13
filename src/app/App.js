@@ -51,7 +51,7 @@ export default function App() {
       <NavBar />
     <CategoriesBar />  
       <Routes>
-        <Route path="/" element={<h1></h1>} />
+        <Route path="/" element={<Home />} />
         {/* <Route path="/home" element={<Home />} /> */}
         {/* <Route path="/token/:token" element={<Home />} />
         <Route path="/about" element={<About />} />
