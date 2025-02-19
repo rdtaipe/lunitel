@@ -1,31 +1,8 @@
-<<<<<<< HEAD
 /trash
 /node_modules
 /package-lock.json
+package-lock.json
 server/service-account.json
 /server/service-account.json
-=======
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
->>>>>>> 21ee2443c45313bb379f165a110349b8810bd49c
+/text.tex
+text.tex
