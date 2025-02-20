@@ -761,8 +761,13 @@ const Home = () => {
   //   //testing redux
   //   const dispatch = useDispatch();
   //   //global state
-  const { get } = useSelector((state) => state.endpoint)
+  const { get, getFrontImages, getCategories, getBrands, } = useSelector((state) => state.endpoint)
+
   const deviceType = useSelector((state) => state.style.settings.device)
+
+  const categories = useSelector((state) => state.actions.getCategories())
+
+  console.log(categories )
 
   //   const { setter } = useSelector(({ state }) => state)
   //   const products = useSelector(state => state.products)
@@ -772,6 +777,7 @@ const Home = () => {
 
   //   //local state
   const [brandsData, setBrandsData] = useState([]);
+  const [categoriesData, setCategoriesData] = useState([]);
   const [products, setProducts] = useState([]);
   const [frontImage, setFrontImage] = useState([]);
   //   const [data, setData] = useState([]);
@@ -780,15 +786,22 @@ const Home = () => {
   //   const [count, setCount] = useState(0);
   //   const [filter, setFilter] = useState({});
   //   const [sort, setSort] = useState({});
+  console.log("important", useSelector((state) => state.data))
 
   useEffect(() => {
     // getData({ filter: { name: [search], ...filter }, sort: sort })
     const getSheetData = async () => {
-      const data = await get("/brands");
+      const data = await getBrands();
       if (data) setBrandsData(data);
     };
+    const getCategoriesData = async () => {
+      const data = await getCategories();
+      if (data) setCategoriesData(data);
+    };
+    getCategoriesData();
+
     const getFrontImage = async () => {
-      const data = await get("/frontimages");
+      const data = await getFrontImages();
       if (data) setFrontImage(data);
     }
 

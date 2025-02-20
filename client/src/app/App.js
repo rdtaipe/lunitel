@@ -21,18 +21,34 @@ import Home from "./pages/Home.js";
 
 export default function App() {
   const [userStatus, setUserStatus] = useState()
-  const dispatch = useDispatch();
+  const [categoriesData, setCategoriesData] = useState([]);
 
-  const fun = useSelector((state) => state);
-  console.log("fun", fun);
+  const dispatch = useDispatch();
+  const { get } = useSelector((state) => state.endpoint)
+
 
 
   const [page, setPage] = useState("/")
 
+  useEffect(() => {
+    // getData({ filter: { name: [search], ...filter }, sort: sort })
+
+    const getCategoriesData = async () => {
+      const data = await get("/categories");
+      if (data) setCategoriesData(data);
+    };
+    getCategoriesData();
+
+
+
+
+  }, []);
+
+
   return (
     <div>
       <NavBar />
-      <CategoriesBar />
+      <CategoriesBar data={categoriesData}/>
       <Routes>
         <Route path="/" element={<Home />} />
         {/* <Route path="/home" element={<Home />} /> */}
@@ -47,7 +63,7 @@ export default function App() {
         {/* <Route path="/error" element={<Error/>}/> */}
       </Routes>
 
-     {/* {page !== "/" && <ScrollAnimate footer={<Footer />} />}  */}
+      {/* {page !== "/" && <ScrollAnimate footer={<Footer />} />}  */}
     </div>
   );
 }

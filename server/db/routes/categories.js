@@ -6,24 +6,24 @@ const CategoriesRoute = express.Router();
 // Crear una nueva marca
 CategoriesRoute.post("/", async (req, res) => {
     try {
-        const brands = Array.isArray(req.body) ? req.body : [req.body]; // Convertir en array si no lo es
-        const insertedBrands = [];
+        const Categories = Array.isArray(req.body) ? req.body : [req.body]; // Convertir en array si no lo es
+        const insertedCategories = [];
 
-        for (const brand of brands) {
-            const { name, description, image } = brand;
+        for (const brand of Categories) {
+            const { id, name, subcategories } = brand;
 
             if (!name) {
                 return res.status(400).json({ error: "El campo 'name' es obligatorio en todos los objetos" });
             }
 
-            const newBrand = {
+            const newCategories = {
+                id,
                 name,
-                description: description || "",
-                image: image || "",
+                subcategories: subcategories || "",
             };
 
-            const result = await CategorieModel.create(newBrand);
-            insertedBrands.push(result);
+            const result = await CategorieModel.create(newCategories);
+            insertedCategories.push(result);
         }
 
         res.status(201).json({ message: "Marcas agregadas exitosamente", brands: insertedBrands });

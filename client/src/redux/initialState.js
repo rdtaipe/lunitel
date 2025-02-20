@@ -6,8 +6,9 @@ import { endpoint } from "../config/server";
 
 export const initialState = {
 
-    // helpers: helpers(store),
     data:{
+        categories: [],
+
         
     },
 

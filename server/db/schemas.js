@@ -34,7 +34,7 @@ export const frontimageSchema = new Schema({
 });
 // categories
 export const categoriesSchema = new Schema({
-  id:"number",
-  name:"text"
+  id: "number",
+  name: "text",
+  subcategories: "array"
 })
-
