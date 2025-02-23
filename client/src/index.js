@@ -8,7 +8,6 @@ import { Head } from "./config/head";
 // app
 import App from './app/App'
 
-
 import { initialState } from './redux/initialState';
 import { actions } from './redux/actions';
 

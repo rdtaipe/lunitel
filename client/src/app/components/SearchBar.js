@@ -1,43 +1,53 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { IconButton, TextField, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { IconButton } from "@mui/material";
 
-const SearchBar = () => {
+const SearchBar = ({ placeholder }) => {
   const dispatch = useDispatch();
-  const { setter } = useSelector((state) => state.actions);
-  const rootStyles = useSelector((state) => state.rootStyles)
+  // const { setter } = useSelector((state) => state.actions);
+  const baseColors = useSelector((state) => state.style.baseColors.primary);
 
   const [name, setName] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(setter({ keys: "searchName", value: name }));
+    // dispatch(setter({ keys: "searchName", value: name }));
   };
+
   const handleInputChange = (e) => {
-    e.preventDefault();
     setName(e.target.value);
-    dispatch(setter({ keys: "searchName", value: e.target.value }));
+    // dispatch(setter({ keys: "searchName", value: e.target.value }));
   };
 
   return (
-    <div style={{ backgroundColor: rootStyles.white }} className="flex w-[100%] md:w-[270px] lg:w-[350px] h-[40px] rounded-[4px] ">
-      <IconButton
-        type="button"
-        className="rounded-[4px] w-[40px] h-[40px] flex justify-center items-center"
-        onClick={(e) => handleSubmit(e)}
-      >
-        <SearchIcon style={{ color: rootStyles.black }} />
-      </IconButton>
-      <input
-        style={{ color: rootStyles.black, backgroundColor:rootStyles.white }}
-        className=" pr-1 outline-none w-[100%] h-[100%] rounded-[4px]"
-        placeholder="Search for any product"
-        type="search"
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        width: { xs: "100%", md: "350px", lg: "400px" },
+        height: "40px",
+        bgcolor: baseColors.white,
+        borderRadius: "10px",
+      }}
+    >
+
+      <TextField
+        fullWidth
+        variant="standard"
+        placeholder={placeholder || "Search for any product"}
         value={name}
-      // onChange={(e) => handleInputChange(e)}
+        onChange={handleInputChange}
+        InputProps={{
+          disableUnderline: true,
+          sx: {pl: 2, color: baseColors.black, backgroundColor: baseColors.white, height: "100%", borderRadius: "100%" },
+        }}
       />
-    </div>
+      <IconButton disableRipple onClick={handleSubmit} sx={{ bgcolor: baseColors.white, borderRadius: "100%", width: "40px", height: "40px" }}>
+        <SearchIcon sx={{ color: baseColors.black }} />
+      </IconButton>
+    </Box>
   );
 };
 
-export default SearchBar
+export default SearchBar;

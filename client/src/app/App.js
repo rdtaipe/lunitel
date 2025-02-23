@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Route, Routes, useHref, useNavigate } from "react-router-dom";
+
+
+// components
 
 import CategoriesBar from "./components/Categories.js";
-import { Route, Routes, useHref, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+
 
 // import { createTheme, ThemeProvider } from "@mui/material/styles";
 // import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
 
 
-// components
 import Footer from "./components/Footer";
 import ScrollAnimate from "./components/ScrollAnimate.js";
 import NavBar from "./components/NavBar";
@@ -16,6 +19,7 @@ import NavBar from "./components/NavBar";
 
 
 import Home from "./pages/Home.js";
+import ContactBar from "./components/ContactBar.js";
 // import Error from "./pages/ErrorComponent/Error";
 
 
@@ -47,8 +51,9 @@ export default function App() {
 
   return (
     <div>
+      <ContactBar />
       <NavBar />
-      <CategoriesBar data={categoriesData}/>
+      {/* <CategoriesBar data={categoriesData} /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         {/* <Route path="/home" element={<Home />} /> */}

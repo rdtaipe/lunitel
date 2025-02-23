@@ -24,6 +24,7 @@ function getRandomPicsumImages() {
 const ProductCard = ({
     category,
     name,
+    description,
     price,
     discount,
     brand,
@@ -31,7 +32,30 @@ const ProductCard = ({
     sizes,
     images,
 }) => {
-    const productImages = images && images.length > 0 ? images : getRandomPicsumImages();
+    // Convertir strings separados por ";" a arrays (si es que vienen como string)
+    const parsedColors =
+        typeof colors === "string" && colors.trim() !== ""
+            ? colors.split(";").map((c) => c.trim())
+            : Array.isArray(colors)
+                ? colors
+                : [];
+    const parsedSizes =
+        typeof sizes === "string" && sizes.trim() !== ""
+            ? sizes.split(";").map((s) => s.trim())
+            : Array.isArray(sizes)
+                ? sizes
+                : [];
+    const parsedImages =
+        typeof images === "string" && images.trim() !== ""
+            ? [images.trim()]
+            : Array.isArray(images)
+                ? images
+                : [];
+
+    // Si no hay imágenes definidas, se generan imágenes aleatorias
+    const productImages =
+        parsedImages.length > 0 ? parsedImages : getRandomPicsumImages();
+
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [hovered, setHovered] = useState(false);
 
@@ -48,20 +72,45 @@ const ProductCard = ({
     };
 
     return (
-        <Card sx={{ maxWidth: 230, m: "auto", position: "relative" }}
+        <Card
+            sx={{
+                width: "100%", // ancho fijo
+                height: 380, // alto fijo (puedes ajustar según lo necesites)
+                position: "relative",
+                overflow: "hidden",
+                borderRadius: 1.5,
+                transition: "opacity 0.3s ease-in-out",
+                opacity: hovered ? 0.5 : 1,
+
+            }}
             onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}>
-            <Box sx={{ position: "relative" }}>
+            onMouseLeave={() => setHovered(false)}
+        >
+            {/* Contenedor de imagen con tamaño fijo */}
+            <Box sx={{
+                position: "relative",
+                height: "60%",
+                width: "100%",
+                overflow: "hidden",
+                display: "block",
+
+            }}>
                 <CardMedia
                     component="img"
-                    sx={{ objectFit: "contain", m: "auto", display: "block", height: 230, width: 230 }}
+                    sx={{
+                        position: "relative",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                        display: "block",
+                        height: "100%",
+                        width: "100%",
+                    }}
                     image={productImages[currentImageIndex]}
                     alt={name}
-
                 />
 
-                {productImages.length > 1 && (
-                    hovered && (<Box >
+                {productImages.length > 1 && hovered && (
+                    <Box>
                         <IconButton
                             onClick={handlePrevImage}
                             sx={{
@@ -70,7 +119,7 @@ const ProductCard = ({
                                 left: 5,
                                 transform: "translateY(-50%)",
                                 backgroundColor: "rgba(0,0,0,0.5)",
-                                color: "white",
+                                color: "green",
                                 "&:hover": { backgroundColor: "rgba(0,0,0,0.7)" },
                             }}
                         >
@@ -90,21 +139,26 @@ const ProductCard = ({
                         >
                             <ArrowForwardIos />
                         </IconButton>
-                    </Box>)
-
+                    </Box>
                 )}
             </Box>
 
-            <CardContent>
-                <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                    {category}
-                </Typography>
-                <Typography variant="h5" component="div">
+            {/* Contenido de la tarjeta */}
+            <CardContent sx={{ flexGrow: 1, overflow: "hidden" }}>
+
+                <Typography variant="h6" component="div">
                     {name}
                 </Typography>
+                {description && (
+                    <Typography variant="body2" color="text.secondary">
+                        {description}
+                    </Typography>
+                )}
+
                 <Typography variant="body2" color="text.secondary">
                     {brand}
                 </Typography>
+
                 <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
                     <Typography variant="h6" color="text.primary">
                         S/.{price}
@@ -117,9 +171,9 @@ const ProductCard = ({
                 </Box>
             </CardContent>
 
-            {(colors?.length > 0 || sizes?.length > 0) && (
+            {(parsedColors.length > 0 || parsedSizes.length > 0) && (
                 <CardActions sx={{ justifyContent: "space-between", px: 2, pb: 2 }}>
-                    {colors?.length > 0 && (
+                    {parsedColors.length > 0 && (
                         <FormControl size="small" sx={{ minWidth: 120 }}>
                             <InputLabel id="color-select-label">Color</InputLabel>
                             <Select
@@ -128,7 +182,7 @@ const ProductCard = ({
                                 label="Color"
                                 defaultValue=""
                             >
-                                {colors.map((color, index) => (
+                                {parsedColors.map((color, index) => (
                                     <MenuItem key={index} value={color}>
                                         {color}
                                     </MenuItem>
@@ -136,7 +190,7 @@ const ProductCard = ({
                             </Select>
                         </FormControl>
                     )}
-                    {sizes?.length > 0 && (
+                    {parsedSizes.length > 0 && (
                         <FormControl size="small" sx={{ minWidth: 120 }}>
                             <InputLabel id="size-select-label">Tamaño</InputLabel>
                             <Select
@@ -145,7 +199,7 @@ const ProductCard = ({
                                 label="Tamaño"
                                 defaultValue=""
                             >
-                                {sizes.map((size, index) => (
+                                {parsedSizes.map((size, index) => (
                                     <MenuItem key={index} value={size}>
                                         {size}
                                     </MenuItem>

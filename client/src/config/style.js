@@ -1,30 +1,46 @@
+import { isMobile, isTablet, isDesktop } from "react-device-detect";
 
 const device = {
     mobile: 'mobile',
+    tablet: 'tablet',
     desktop: 'desktop',
 };
-
-// getBreakpoint() => 'mobile' | 'desktop'
-const getBreakpoint = () => {
-    return window.innerWidth < 768 ? device.mobile : device.desktop;
+const theme = {
+    light: 'light',
+    dark: 'dark',
 };
+
+const getBreakpoint = () => {
+    console.log("divice", isMobile, isTablet, isDesktop);
+    if (isMobile) return device.mobile;
+    if (isTablet) return device.tablet;
+    if (isDesktop) return device.desktop;
+    return device.desktop;
+};
+const getTheme = () => {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? theme.dark : theme.light
+
+}
 
 export const style = {
     // Configuración base
     settings: {
         device: getBreakpoint(),
-        defaultTheme: 'light',
-        fluidTypography: true,
-        responsiveSpacing: true,
+        theme: getTheme(),
     },
 
     // Paleta base de colores
     baseColors: {
         primary: {
+            //base
             black: "#192531",
+            gray: "#787878",
             white: "#FAFAFA",
             blue: "#00D3FF",
             green: "#00FF99",
+            //text
+            grayText: "#C4C7CA",
+
         },
         secondary: {
             100: '#E6FFF5',

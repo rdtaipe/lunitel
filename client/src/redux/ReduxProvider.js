@@ -1,17 +1,18 @@
 import React from "react";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { Provider, useDispatch } from "react-redux";
+import get from "lodash/get";
+import set from "lodash/set";
+import { findAll,findOne } from "./utils"
+
+
+
+
 
 const setState = (state, action) => {
-
     // console.log("setter function",state, action.payload);
-
     const { keys, value, only } = action.payload;
-
-
-
     if (!keys) return state;
-
     const recursiveUpdate = (obj, path, newValue, onlyFlag) => {
         const [currentKey, ...remainingPath] = path.split('.');
 
@@ -70,6 +71,8 @@ const ReduxInitializer = ({ actions, children }) => {
 };
 
 const createReduxStore = ({ initialState, actions, children }) => {
+
+
     const Slice = createSlice({
         name: "state",
         initialState,
@@ -80,10 +83,19 @@ const createReduxStore = ({ initialState, actions, children }) => {
         reducer: Slice.reducer,
         middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
     });
+    const utils = {
+        dispatch: (action) => store.dispatch(action),
+        getState: store.getState,
+        set: ({key, value}) => utils.dispatch(Slice.actions.setState({ key, value })),
+        get: (key) => get(store.getState(), key),
+        findAll: (key) => findAll(store.getState(), key),
+        findOne: (key) => findOne(store.getState(), key),
+
+    }
 
     return (
         <Provider store={store}>
-            <ReduxInitializer actions={Slice.actions}>
+            <ReduxInitializer actions={{ ...Slice.actions, ...utils }} >
                 {children}
             </ReduxInitializer>
         </Provider>

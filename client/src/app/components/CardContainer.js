@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Grid } from "@mui/material";
+import CustomGrid from "./CustomGrid";
 
 // Colores base para el diseño
 const rootStyles = {
@@ -12,15 +13,30 @@ const rootStyles = {
 const CardContainer = ({ CardComponent, data }) => {
   return (
     <Box sx={{ backgroundColor: rootStyles.white, p: 2 }}>
-      <Grid 
-        container 
-        spacing={2} 
-        justifyContent="center"
-        sx={{ maxWidth: 1200, margin: 0 }}
+      <Grid
+        container
+        sx={{
+          // backgroundColor: "red",
+
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "repeat(1, 1fr)", // 1 columna en móviles
+            sm: "repeat(2, 1fr)", // 2 columnas en pantallas pequeñas
+            md: "repeat(4, 1fr)", // 3 columnas en pantallas medianas y superiores
+            xl: "repeat(5, 1fr)", // 4 columnas en pantallas grandes
+        
+          },
+          gap: "10px",
+          padding: "10px",
+          nowrap: true,
+        }}
       >
         {data.map((item, index) => (
-          <Grid item xs={6} sm={6} md={4} lg={3} xl={2} key={index}>
-            {/* Se renderiza la card con la data correspondiente */}
+          <Grid
+            item
+            sx={{ margin: "0px", display: "flex", justifyContent: "center", backgroundColor: rootStyles.white }}
+            key={index}
+          >
             <CardComponent {...item} />
           </Grid>
         ))}
@@ -30,4 +46,3 @@ const CardContainer = ({ CardComponent, data }) => {
 };
 
 export default CardContainer;
-
