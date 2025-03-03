@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "../redux/ReduxProvider";
+import { Category } from "@mui/icons-material";
 const environment = process.env.NODE_ENV || "development";
 
 /// usedispatch
@@ -20,6 +21,7 @@ const BaseUrl = {
 const routes = {
     products: "/products",
     categories: "/categories",
+    category: "/?Categories=category&Categories=countCategory",
     brands: "/brands",
     frontimages: "/frontimages",
     users: "/users",
@@ -30,7 +32,7 @@ const routes = {
 
 // let state=store.getState()
 
-export const endpoint = {
+const endpoint = {
     routes,
     server: BaseUrl[environment].server,
     dashboard: BaseUrl[environment].dashboard,
@@ -52,7 +54,7 @@ export const endpoint = {
 
     // GET Categories
     //useDispatch
-    getCategories: () => endpoint.get(endpoint.routes.categories),
+    getCategories: () => endpoint.get(endpoint.routes.category),
     getBrands: () => endpoint.get(endpoint.routes.brands),
     getProducts: () => endpoint.get(endpoint.routes.products),
     getFrontImages: () => endpoint.get(endpoint.routes.frontimages),
@@ -61,3 +63,4 @@ export const endpoint = {
 }
 
 
+export default endpoint

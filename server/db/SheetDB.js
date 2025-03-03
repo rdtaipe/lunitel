@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import lodash from "lodash";
 
 // Configura la autenticación
 const auth = new google.auth.GoogleAuth({
@@ -28,6 +29,7 @@ export class SheetDB {
         spreadsheetId: this.spreadsheetId,
         fields: "sheets.properties.title",
       });
+
 
       const sheetExists = spreadsheet.data.sheets.some(
         (sheet) => sheet.properties.title === this.sheetName
@@ -75,6 +77,7 @@ export class SheetDB {
       spreadsheetId: this.spreadsheetId,
       range: this.sheetName,
     });
+    // console.log(response.data);
 
     const rows = response.data.values;
     if (!rows || rows.length === 0) return [];
@@ -101,15 +104,49 @@ export class SheetDB {
 
   /**
    * Busca documentos que coincidan con la consulta
-   * @param {Object} query - Objeto con los campos y valores a buscar.
+   * @param {String} query - Objeto con los campos y valores a buscar.
    * @returns {Promise<Array<Object>>} - Un array de objetos que coinciden con la consulta.
    */
+
   async find(query = {}) {
-    const rows = await this.getAllRows();
-    return rows.filter((row) =>
-      Object.keys(query).every((key) => row[key] == query[key])
-    );
+
+
+
+    try {
+      const headerRange = `${this.sheetName}!1:1`;
+      const dataRange = `${this.sheetName}!A2:Z`; // Desde la fila 2 en adelante
+
+      // 📌 1. Obtener encabezados y datos en una sola solicitud (paralelo)
+      const [headerResponse, dataResponse] = await Promise.all([
+        sheetsAPI.spreadsheets.values.get({ spreadsheetId: this.spreadsheetId, range: headerRange }),
+        sheetsAPI.spreadsheets.values.get({ spreadsheetId: this.spreadsheetId, range: dataRange })
+      ]);
+
+      const headers = headerResponse.data.values?.[0] || [];
+      const allRows = dataResponse.data.values || [];
+
+
+      // 📌 2. Convertir filas a objetos asegurando la alineación con los encabezados
+      const jsonData = allRows.map(row => lodash.zipObject(headers, row));
+
+      // 📌 3. Filtrar los datos
+      const filteredResults = lodash.filter(jsonData, query);
+
+      // 📌 4. Extraer categorías únicas
+      const categoriesAndSubcategories = lodash.uniqWith(
+        filteredResults.map(data => ({ category: data[query] })),
+        
+      );
+
+      return categoriesAndSubcategories;
+    } catch (error) {
+      console.error("Error al buscar datos en Google Sheets:", error);
+      return [];
+    }
   }
+
+
+
 
   /**
    * Encuentra un solo documento que coincida con la consulta

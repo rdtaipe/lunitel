@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Grid } from "@mui/material";
 import CustomGrid from "./CustomGrid";
+import { isArray } from "lodash";
 
 // Colores base para el diseño
 const rootStyles = {
@@ -10,37 +11,34 @@ const rootStyles = {
   green: "#00FF99",
 };
 
-const CardContainer = ({ CardComponent, data }) => {
+const CardContainer = ({ CardComponent, data  }) => {
+console.log("data card",data)
   return (
-    <Box sx={{ backgroundColor: rootStyles.white, p: 2 }}>
-      <Grid
-        container
-        sx={{
-          // backgroundColor: "red",
+    <Box sx={{
+      // Padding alrededor del contenedor
+      // p: { xs: 2, sm: 3, md: 4 , lg: 2, xl: 2 },
+      // Sistema de Grid Responsive
+      display: "grid",
+      gap: 2,
+      // 1 columna en móviles, 2 en pantallas medianas, 3 en pantallas grandes, 4 en extra grandes
+      gridTemplateColumns: {
+        xs: "1fr 1fr",
+        sm: "1fr 1fr 1fr",
+        md: "1fr 1fr 1fr 1fr",
+        lg: "1fr 1fr 1fr 1fr 1fr",
+        xl: "1fr 1fr 1fr 1fr 1fr 1fr",
+      },
+    }}>
 
-          display: "grid",
-          gridTemplateColumns: {
-            xs: "repeat(1, 1fr)", // 1 columna en móviles
-            sm: "repeat(2, 1fr)", // 2 columnas en pantallas pequeñas
-            md: "repeat(4, 1fr)", // 3 columnas en pantallas medianas y superiores
-            xl: "repeat(5, 1fr)", // 4 columnas en pantallas grandes
-        
-          },
-          gap: "10px",
-          padding: "10px",
-          nowrap: true,
-        }}
-      >
-        {data.map((item, index) => (
-          <Grid
-            item
-            sx={{ margin: "0px", display: "flex", justifyContent: "center", backgroundColor: rootStyles.white }}
-            key={index}
-          >
-            <CardComponent {...item} />
-          </Grid>
-        ))}
-      </Grid>
+      {isArray(data) && data.map((item, index) => (
+        <Grid
+          item
+          sx={{ margin: "0px", display: "flex", justifyContent: "center", backgroundColor: rootStyles.white }}
+          key={index}
+        >
+          <CardComponent {...item} />
+        </Grid>
+      ))}
     </Box>
   );
 };

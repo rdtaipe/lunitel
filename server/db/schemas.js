@@ -1,6 +1,13 @@
 // /db/schemas.js
-import { text } from "stream/consumers";
+// import { text } from "stream/consumers";
 import { Schema } from "./SheetDB.js";
+
+
+export const globalSchema = new Schema({
+  id: "number",
+  name: "text",
+  subcategories: "array"
+})
 
 
 // products schema

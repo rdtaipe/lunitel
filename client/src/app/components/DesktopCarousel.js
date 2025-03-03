@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { Box, colors, IconButton, Stack } from "@mui/material";
+import { Box, colors, IconButton, Stack, Container } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 // temporal image
 import FrontImageDesktop from "../../assets/FrontImageDesktop.png";
+import { transform } from "lodash";
 
 
 const rootStyles = {
@@ -27,7 +28,7 @@ const DesktopCarousel = ({ data }) => {
 
     useEffect(() => {
         if (data.length) startAutoPlay();
-        
+
         return () => clearInterval(intervalRef.current);
     }, [data]);
 
@@ -37,87 +38,102 @@ const DesktopCarousel = ({ data }) => {
     };
 
     return (
-        <Box
-            sx={{
-                position: "relative",
-                width: "100%",
-                height: 250,
-                overflow: "hidden",
-                backgroundColor: rootStyles.black,
-            }}
-        >
-            <img
-                src={data[currentIndex].desktop_image}
-                alt={data[currentIndex].header}
-                style={{
+        <Container maxWidth="xl">
+            <Box
+                sx={{
+                    position: "relative",
                     width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    transition: "opacity 0.5s ease-in-out",
-                }}
-            />
-
-            {/* Botón Anterior */}
-            <IconButton
-                onClick={() => updateIndex(currentIndex === 0 ? data.length - 1 : currentIndex - 1)}
-                sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: 10,
-                    transform: "translateY(-50%)",
+                    height: 250,
+                    overflow: "hidden",
                     backgroundColor: rootStyles.black,
-                    color: rootStyles.blue,
-                    "&:hover": { backgroundColor: rootStyles.black, color: rootStyles.green },
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                 }}
             >
-                <ArrowBack />
-            </IconButton>
+                <Box
+                    component={"img"}
+                    src={data[currentIndex].desktop_image}
+                    alt={data[currentIndex].header}
+                    sx={{
+                        width: {
+                            xs: "auto",
+                            sm: "auto",
+                            md: "100%",
+                        },
+                        height: {
+                            xs: "100%",
+                            sm: "100%",
+                            md: "auto"
+                        },
+                        objectFit: "cover",
+                        position: "absolute",
+                        top: 0,
+                    }}
+                />
 
-            {/* Botón Siguiente */}
-            <IconButton
-                onClick={() => updateIndex((currentIndex + 1) % data.length)}
-                sx={{
-                    position: "absolute",
-                    top: "50%",
-                    right: 10,
-                    transform: "translateY(-50%)",
-                    backgroundColor: rootStyles.black,
-                    color: rootStyles.blue,
-                    "&:hover": { backgroundColor: rootStyles.black, color: rootStyles.green },
-                }}
-            >
-                <ArrowForward />
-            </IconButton>
+                {/* Botón Anterior */}
+                <IconButton
+                    onClick={() => updateIndex(currentIndex === 0 ? data.length - 1 : currentIndex - 1)}
+                    sx={{
+                        position: "absolute",
+                        top: "50%",
+                        left: 10,
+                        transform: "translateY(-50%)",
+                        backgroundColor: rootStyles.black,
+                        color: rootStyles.blue,
+                        "&:hover": { backgroundColor: rootStyles.black, color: rootStyles.green },
+                    }}
+                >
+                    <ArrowBack />
+                </IconButton>
 
-            {/* Indicadores */}
-            <Stack
-                direction="row"
-                spacing={1}
-                sx={{
-                    position: "absolute",
-                    bottom: 20,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    zIndex: 2,
-                }}
-            >
-                {data.map((_, index) => (
-                    <Box
-                        key={index}
-                        onClick={() => updateIndex(index)}
-                        sx={{
-                            width: 12,
-                            height: 12,
-                            borderRadius: "50%",
-                            backgroundColor: currentIndex === index ? rootStyles.blue : rootStyles.black,
-                            opacity: currentIndex === index ? 1 : 0.8,
-                            cursor: "pointer",
-                            transition: "opacity 0.3s",
-                        }}
-                    />
-                ))}
-            </Stack>
-        </Box>
+                {/* Botón Siguiente */}
+                <IconButton
+                    onClick={() => updateIndex((currentIndex + 1) % data.length)}
+                    sx={{
+                        position: "absolute",
+                        top: "50%",
+                        right: 10,
+                        transform: "translateY(-50%)",
+                        backgroundColor: rootStyles.black,
+                        color: rootStyles.blue,
+                        "&:hover": { backgroundColor: rootStyles.black, color: rootStyles.green },
+                    }}
+                >
+                    <ArrowForward />
+                </IconButton>
+
+                {/* Indicadores */}
+                <Stack
+                    direction="row"
+                    spacing={1}
+                    sx={{
+                        position: "absolute",
+                        bottom: 20,
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        zIndex: 2,
+                    }}
+                >
+                    {data.map((_, index) => (
+                        <Box
+                            key={index}
+                            onClick={() => updateIndex(index)}
+                            sx={{
+                                width: 12,
+                                height: 12,
+                                borderRadius: "50%",
+                                backgroundColor: currentIndex === index ? rootStyles.blue : rootStyles.black,
+                                opacity: currentIndex === index ? 1 : 0.8,
+                                cursor: "pointer",
+                                transition: "opacity 0.3s",
+                            }}
+                        />
+                    ))}
+                </Stack>
+            </Box>
+        </Container>
     );
 };
 

@@ -4,8 +4,12 @@ import ProductsRoute from "./routes/products.js";
 import BrandsRoute from "./routes/brands.js";
 import FrontImagesRoute from "./routes/frontimages.js";
 import CategoriesRoute from "./routes/categories.js"
+import GlobalRoute from "./routes/global.js"
 const dbRoute = express.Router();
 
+
+
+dbRoute.use ("/", GlobalRoute)
 dbRoute.use("/products", ProductsRoute);
 dbRoute.use("/brands", BrandsRoute);
 dbRoute.use("/frontimages", FrontImagesRoute);

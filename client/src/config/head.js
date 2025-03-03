@@ -1,17 +1,21 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
+import { useSelector } from "react-redux";
 import appleTouchIcon from '../assets/apple-touch-icon.png';
 import icon from '../assets/icon.png'
 import '../assets/index.css';
 
 
+
 export const Head = () => {
+  const action = useSelector((state) => state.actions);
+  const document = action.get("document");
 
   return (
     <div>
       <Helmet>
         {/* Cambiar el título */}
-        <title>Ubiquitilux</title>
+        <title>{document.head.title}</title>
 
 
         {/* Cambiar el icono de la pestaña */}
@@ -21,7 +25,7 @@ export const Head = () => {
         <meta name="theme-color" content="#000000" />
 
         {/* Agregar una descripción */}
-        <meta name="description" content="Web site created using create-react-app" />
+        <meta name="description" content={document.head.description} />
 
         {/* Apple touch icon */}
         <link rel="apple-touch-icon" href={appleTouchIcon} />

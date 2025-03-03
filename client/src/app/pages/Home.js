@@ -6,7 +6,11 @@ import MobileCarousel from '../components/MobileCarousel';
 import ProductCard from '../components/ProductCard';
 import CardContainer from '../components/CardContainer';
 import Marquesina from '../components/Marquesina';
+import SortBar from '../components/SortBar';
+import TrendProductsCarousel from '../components/TrendProductsCarousel';
 import Footer from '../components/Footer';
+import { Box, Container, Typography } from '@mui/material';
+import { Category } from '@mui/icons-material';
 // import Card from '../components/Card'
 // import { useDispatch, useSelector } from 'react-redux'
 // import Sidebar from '../components/Sidebar/Sidebar'
@@ -35,15 +39,9 @@ import Footer from '../components/Footer';
 
 
 const Home = () => {
+  const action = useSelector((state) => state.actions);
 
-
-  //   const images = [Image1, Image2, Image3, Image4, Image5, Image6, Image7, Image8, Image9 ];
-  //   //testing redux
-  //   const dispatch = useDispatch();
-  //   //global state
-  const { get, getFrontImages, getCategories, getBrands,getProducts } = useSelector((state) => state.endpoint)
-
-  const deviceType = useSelector((state) => state.style.settings.device)
+  const deviceType = action.get("style.settings.device")
 
 
 
@@ -54,51 +52,15 @@ const Home = () => {
   //   const search = useSelector(state => state.searchName)
 
   //   //local state
-  const [brandsData, setBrandsData] = useState([]);
-  const [categoriesData, setCategoriesData] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [frontImage, setFrontImage] = useState([]);
+
+
   //   const [data, setData] = useState([]);
   //   const [page, setPage] = useState(1);
   //   const [limit, setLimit] = useState(10);
   //   const [count, setCount] = useState(0);
   //   const [filter, setFilter] = useState({});
   //   const [sort, setSort] = useState({});
-  console.log("important", useSelector((state) => state.data))
-
-  useEffect(() => {
-    // getData({ filter: { name: [search], ...filter }, sort: sort })
-
-    const getProductsData = async () => {
-      const data = await getProducts();
-      if (data) setProducts(data);
-
-      
-    }
-    getProductsData();
-    console.log("products",products)
-    const getSheetData = async () => {
-      const data = await getBrands();
-      if (data) setBrandsData(data);
-    };
-    const getCategoriesData = async () => {
-      const data = await getCategories();
-      if (data) setCategoriesData(data);
-    };
-    getCategoriesData();
-
-    const getFrontImage = async () => {
-      const data = await getFrontImages();
-      if (data) setFrontImage(data);
-    }
-
-
-    getSheetData();
-    getFrontImage();
-
-
-    console.log("frontImage", frontImage)
-  }, []);
+  const data = useSelector((state) => state.data);
 
 
   //   const getData = ({filter,sort}) => {
@@ -112,6 +74,22 @@ const Home = () => {
   //       limit: 10,
   //       skip: limit * page - 10,
   //     };
+
+
+  const request = {
+    filter: {
+      price: { $gte: 100, $lte: 500 },
+      category: 'electronics',
+      name: { $regex: 'phone', $options: 'i' }
+    },
+    sort: {
+      price: 'desc',
+      rating: 'asc'
+    },
+    groupBy: 'brand',
+    limit: 20,
+    skip: 0
+  };
 
   //     const query = queryString(obj);
 
@@ -129,16 +107,21 @@ const Home = () => {
   //     });
   //   };
   return (
-    <div >
-      {frontImage.length > 0 &&
-        (deviceType === "desktop" ? <DesktopCarousel data={frontImage} /> : <MobileCarousel data={frontImage} />)
+    <Box >
+      {data.frontImages.length > 0 &&
+        (deviceType === "desktop" ? <DesktopCarousel data={data.frontImages} /> : <MobileCarousel data={data.frontImages} />)
       }
+      <Container maxWidth="xl">
+        {/* <Typography variant="h4" sx={{ my: 4 }}>Lo último. Echa un vistazo a las novedades, ahora mismo.</Typography> */}
 
-      <CardContainer CardComponent={ProductCard} data={products} />
-      <Marquesina data={brandsData} />
-      <Footer />
 
-      {/* 
+        {/* <TrendProductsCarousel /> */}
+        <CardContainer CardComponent={ProductCard} data={data.products} />
+        <Marquesina data={data.brands} />
+
+
+
+        {/* 
       <Carousel images={images} />
       <Drawer
         sidebar={<Sidebar setFilter={(e) => { setFilter(e) }} />}
@@ -155,7 +138,8 @@ const Home = () => {
           <Pagination page={page} count={count} setPage={n => { setPage(n) }} />
         </div>
       </Drawer> */}
-    </div>
+      </Container>
+    </Box>
   );
 };
 

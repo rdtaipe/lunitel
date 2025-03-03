@@ -37,8 +37,8 @@ CategoriesRoute.post("/", async (req, res) => {
 // Leer todas las marcas
 CategoriesRoute.get("/", async (req, res) => {
     try {
-        const brands = await CategorieModel.getAllRows();
-        res.status(200).json(brands);
+        const  category = await CategorieModel.getAllRows();
+        res.status(200).json(category);
     } catch (error) {
         res.status(500).json({ error: "Error al obtener las marcas" });
     }

@@ -1,27 +1,26 @@
 // import { server } from "./server";
-import { style } from "../config/style";
-import { endpoint } from "../config/server";
 import { data } from "react-router-dom";
+
+import style from "../functions/style"
+import endpoint from "../functions/server"
+import router from "../functions/router"
+import sort from "../functions/sort"
 
 
 
 export const initialState = {
-    router: {
-        location: {
-            pathname: "/",
+    document: {
+        head: {
+            title: "Ubiquitilux",
+            description: "Web site created using create-react-app",
+            keywords: "web, react, create-react-app",
+            author: "Rolando Taipe",
         },
-        navigate: () => {},
-        match: {
-            params: {},
-        },
-        history: {
-            push: () => {},
-        },
-
-        
     },
+    router: router,
+    sort: sort,
 
-    data:{
+    data: {
         categories: [],
     },
     MenuCategories: {

@@ -21,18 +21,7 @@ function getRandomPicsumImages() {
     );
 }
 
-const ProductCard = ({
-    category,
-    name,
-    description,
-    price,
-    discount,
-    brand,
-    colors,
-    sizes,
-    images,
-}) => {
-    // Convertir strings separados por ";" a arrays (si es que vienen como string)
+const ProductCard = ({ category, name, description, price, discount, brand, colors, sizes, images, }) => {
     const parsedColors =
         typeof colors === "string" && colors.trim() !== ""
             ? colors.split(";").map((c) => c.trim())
@@ -53,8 +42,7 @@ const ProductCard = ({
                 : [];
 
     // Si no hay imágenes definidas, se generan imágenes aleatorias
-    const productImages =
-        parsedImages.length > 0 ? parsedImages : getRandomPicsumImages();
+    const productImages = parsedImages.length > 0 ? parsedImages : getRandomPicsumImages();
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [hovered, setHovered] = useState(false);
@@ -74,13 +62,13 @@ const ProductCard = ({
     return (
         <Card
             sx={{
+                position: "relative",
                 width: "100%", // ancho fijo
                 height: 380, // alto fijo (puedes ajustar según lo necesites)
                 position: "relative",
                 overflow: "hidden",
                 borderRadius: 1.5,
                 transition: "opacity 0.3s ease-in-out",
-                opacity: hovered ? 0.5 : 1,
 
             }}
             onMouseEnter={() => setHovered(true)}
@@ -119,8 +107,7 @@ const ProductCard = ({
                                 left: 5,
                                 transform: "translateY(-50%)",
                                 backgroundColor: "rgba(0,0,0,0.5)",
-                                color: "green",
-                                "&:hover": { backgroundColor: "rgba(0,0,0,0.7)" },
+                                color: "green"
                             }}
                         >
                             <ArrowBackIos />
@@ -133,8 +120,7 @@ const ProductCard = ({
                                 right: 5,
                                 transform: "translateY(-50%)",
                                 backgroundColor: "rgba(0,0,0,0.5)",
-                                color: "white",
-                                "&:hover": { backgroundColor: "rgba(0,0,0,0.7)" },
+                                color: "white"
                             }}
                         >
                             <ArrowForwardIos />
@@ -144,13 +130,13 @@ const ProductCard = ({
             </Box>
 
             {/* Contenido de la tarjeta */}
-            <CardContent sx={{ flexGrow: 1, overflow: "hidden" }}>
+            <CardContent sx={{position: "relative", flexGrow: 1, overflow: "hidden" }}>
 
-                <Typography variant="h6" component="div">
+                <Typography  variant="h6" component="div"  sx={{position: "relative",fontWeight: "bold", fontSize: 14, width: "100%", overflow: "hidden", textOverflow: "ellipsis", maxHeight: 20}}>
                     {name}
                 </Typography>
                 {description && (
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography   color="text.secondary" sx={{position: "relative", fontSize: 12, width: "100%", overflow: "hidden", textOverflow: "ellipsis", maxHeight: 40}}>
                         {description}
                     </Typography>
                 )}

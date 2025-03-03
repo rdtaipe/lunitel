@@ -11,7 +11,6 @@ const theme = {
 };
 
 const getBreakpoint = () => {
-    console.log("divice", isMobile, isTablet, isDesktop);
     if (isMobile) return device.mobile;
     if (isTablet) return device.tablet;
     if (isDesktop) return device.desktop;
@@ -22,7 +21,7 @@ const getTheme = () => {
 
 }
 
-export const style = {
+const style = {
     // Configuración base
     settings: {
         device: getBreakpoint(),
@@ -157,3 +156,5 @@ export const style = {
     },
 };
 
+
+export default style

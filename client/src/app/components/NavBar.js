@@ -12,6 +12,9 @@ import SearchBar from "./SearchBar.js";
 import logo from "../../assets/logo.svg"; // Actualiza la ruta del logo
 import icon from "../../assets/icon.svg";
 
+
+import MenuCategoryBox from "./MenuCategoryBox.js";
+
 // Estilo de texto para los enlaces
 const NavTextStyle = {
   mx: { lg: 2 },
@@ -24,38 +27,27 @@ const NavTextStyle = {
   },
 };
 
-// Categorías de ejemplo
-const categories = [
-  { title: "Tecnología", path: "/category/tecnologia" },
-  { title: "Electrodomésticos", path: "/category/electrodomesticos" },
-  { title: "Deportes y Fitness", path: "/category/deportes-fitness" },
-  { title: "Belleza y Cuidado Personal", path: "/category/belleza-cuidado" },
-  { title: "Herramientas", path: "/category/herramientas" },
-  { title: "Construcción", path: "/category/construccion" },
-  { title: "Industrias y Oficinas", path: "/category/industrias-oficinas" },
-  { title: "Juegos y Juguetes", path: "/category/juegos-juguetes" },
-  { title: "Bebés", path: "/category/bebes" },
-];
 
 // Componentes estilizados
 
 
-export default function NavBar({ }) {
+export default function NavBar() {
   const action = useSelector((state) => state.actions);
-
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
-  const handleMenuClose = () => setAnchorEl(null);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  }
+
   const deviceType = action.get("style.settings.device")
   const baseColors = action.get("style.baseColors.primary")
+  const categories = action.get("data.categories");
 
-  action.set({ key: "test.obj.b.1.a", value: 300 })
-  console.log(action.get("test.obj.b.1"))
-  
+
 
   return (
-    <AppBar position="sticky" elevation={0} sx={{ height: "60px", background: baseColors.black }} >
+    <AppBar position="sticky" elevation={0} sx={{ bgcolor: baseColors.black, width: "100%", height: "60px", overflow: "hidden" }} >
       {/* Barra principal */}
       <Container maxWidth="xl" sx={{ height: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 
@@ -73,6 +65,7 @@ export default function NavBar({ }) {
           {/* categories */}
           <Box sx={{ display: "flex", alignItems: "center", ml: 0, gap: 0, }}>
             <Tabs
+              value={0}
               orientation="horizontal"
 
               variant="scrollable"
@@ -88,6 +81,7 @@ export default function NavBar({ }) {
             >
 
               <Tab
+                value={1}
                 label={
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <span>Productos</span>
@@ -192,28 +186,9 @@ export default function NavBar({ }) {
         </Box>
       </Container >
 
+      <MenuCategoryBox setAnchorEl={setAnchorEl} anchorEl={anchorEl} />
 
-      {/* Menú lateral para móviles */}
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
-        anchorOrigin={{ vertical: "top", horizontal: "left" }}
-        transformOrigin={{ vertical: "top", horizontal: "left" }}
-      // sx={{ display: { md: "none" } }}
-      >
-        {categories.map((category, index) => (
-          <MenuItem
-            key={index}
-            onClick={handleMenuClose}
-            component={Link}
-            to={category.path}
-          >
-            {category.title}
-          </MenuItem>
-        ))}
-        <Divider />
-      </Menu>
+
     </AppBar>
   );
 };
