@@ -11,7 +11,7 @@ import sort from "../functions/sort"
 export const initialState = {
     document: {
         head: {
-            title: "Ubiquitilux",
+            title: "ATS Maker",
             description: "Web site created using create-react-app",
             keywords: "web, react, create-react-app",
             author: "Rolando Taipe",
